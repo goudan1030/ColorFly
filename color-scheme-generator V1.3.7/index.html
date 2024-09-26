@@ -15,6 +15,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS4G39V8EB"></script>
@@ -93,17 +94,31 @@
         .copy-notification .text .value {
             font-size: 14px;
         }
+        .icons {
+            display: flex;
+            gap: 10px;
+        }
+        .icons .material-icons-outlined {
+            font-size: 20px;  /* 设置图标大小为 16px */
+            color: #ff0088;   /* 设置图标颜色为 #ff0088 */
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="title-section">
-                <h1><span class="colorfly">ColorFly</span> - Color Scheme Generator</h1>
+                <h1>
+                    <span class="material-icons-outlined">palette</span>
+                    <span class="colorfly">ColorFly</span> - Color Scheme Generator
+                </h1>
                 <div class="icons">
-                    <i class="far fa-comment-dots"></i>
-                    <i class="far fa-share-alt"></i>
-                    <i class="far fa-bookmark"></i>
+                    <div class="icons">
+                        <span class="material-icons-outlined icon-small">quiz</span>
+                        <span class="material-icons-outlined icon-small">share</span>
+                        <span class="material-icons-outlined icon-small">favorite</span>
+                    </div>
                 </div>
             </div>
             <p class="description">Generate a perfectly harmonized color scheme with our Color Scheme Generator. Generate fancy color shades, tints, triadic color palettes, and more color combinations.</p>

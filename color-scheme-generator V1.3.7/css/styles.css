@@ -33,8 +33,39 @@ header {
 }
 
 h1 {
-    color: #000;
-    text-align: left;
+    display: flex;
+    align-items: center;
+    font-size: 32px; /* 设置标题字体大小为32px */
+}
+
+h1 .material-icons-outlined {
+    font-size: 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    color: #ff0088;
+    margin-right: 10px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /* 重置可能影响大小的属性 */
+    line-height: 1 !important;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* 防止在某些浏览器中被压缩 */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}
+
+.palette-icon {
+    color: #ff0088; /* 设置图标颜色为 #ff0088 */
+    font-size: 32px; /* 设置图标大小为 32px */
+    margin-right: 10px; /* 在图标和文字之间添加一些间距 */
 }
 
 .colorfly {
@@ -49,6 +80,12 @@ h1 {
 .icons i {
     font-size: 16px;
     color: purple;
+    cursor: pointer;
+}
+
+.icons .material-icons-outlined {
+    font-size: 16px;
+    color: #ff0088;
     cursor: pointer;
 }
 
@@ -209,27 +246,9 @@ footer {
     text-transform: uppercase;
 }
 
-.colors {
-    display: flex;
-    width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.color {
-    flex: 1;
-    height: 148px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
 .color span {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 600;  /* 从 bold 改为 600 */
     text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -237,31 +256,43 @@ footer {
     color: var(--text-color);
 }
 
-.color::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255,255,255,0.1);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+button {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 在图标和文本之间添加间距 */
 }
 
-.colors:hover .color {
-    flex-basis: 0;
+.title-section .material-icons-outlined {
+    font-size: 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    color: #ff0088;
+    margin-right: 10px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    /* 重置可能影响大小的属性 */
+    line-height: 1 !important;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* 防止在某些浏览器中被压缩 */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
 }
 
-.colors .color:hover {
-    flex-grow: 1.5;
-    flex-basis: 80px;  /* 增加的宽度 */
-}
-
-.color:hover::before {
-    opacity: 1;
-}
-
-.color:hover span {
-    transform: scale(1.1);
+.material-icons-outlined.icon-small {
+    font-size: 16px !important;
+    width: 16px;
+    height: 16px;
+    color: #ff0088;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
