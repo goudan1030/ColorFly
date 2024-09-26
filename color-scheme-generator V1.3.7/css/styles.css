@@ -102,16 +102,10 @@ h1 {
     overflow: hidden;
 }
 
-#baseColor::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-
-#baseColor::-webkit-color-swatch {
-    border: none;
-    border-radius: 4px;
-}
-
+#baseColor::-webkit-color-swatch-wrapper,
+#baseColor::-webkit-color-swatch,
 #baseColor::-moz-color-swatch {
+    padding: 0;
     border: none;
     border-radius: 4px;
 }
@@ -128,7 +122,6 @@ h1 {
 
 .color-info {
     margin-top: 20px;
-
     width: 100%;
     box-sizing: border-box;
 }
@@ -157,6 +150,7 @@ h1 {
     font-size: 15px;
     color: inherit;
     margin: 0;
+    cursor: pointer; /* 添加光标样式 */
 }
 
 #colorSchemes {
@@ -169,10 +163,7 @@ h1 {
 }
 
 .scheme {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 20px 0;
     text-align: left;
     background-color: #fff;
     border-radius: 5px;
@@ -203,6 +194,7 @@ footer {
     margin-top: 20px;
     color: #777;
 }
+
 .tip {
     font-size: 13px;
     color: black;
@@ -215,4 +207,61 @@ footer {
     padding: 2px 4px;
     border-radius: 2px;
     text-transform: uppercase;
+}
+
+.colors {
+    display: flex;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.color {
+    flex: 1;
+    height: 148px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.color span {
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    color: var(--text-color);
+}
+
+.color::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.colors:hover .color {
+    flex-basis: 0;
+}
+
+.colors .color:hover {
+    flex-grow: 1.5;
+    flex-basis: 80px;  /* 增加的宽度 */
+}
+
+.color:hover::before {
+    opacity: 1;
+}
+
+.color:hover span {
+    transform: scale(1.1);
 }
