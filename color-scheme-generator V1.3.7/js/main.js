@@ -115,7 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 colorElement.className = 'color';
                 colorElement.style.backgroundColor = color;
                 const textColor = tinycolor(color).isLight() ? '#000000' : '#ffffff';
-                colorElement.innerHTML = `<span style="--text-color: ${textColor}" onclick="copyToClipboard('${color}')">${color}</span>`;
+                const span = document.createElement('span');
+                span.style.setProperty('--text-color', textColor);
+                span.textContent = color;
+                span.onclick = function() {
+                    copyToClipboard(color);
+                };
+                colorElement.appendChild(span);
                 colorsElement.appendChild(colorElement);
             });
 
@@ -224,15 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function copyToClipboard(text) {
-        const tempInput = document.createElement('input');
-        tempInput.style.position = 'absolute';
-        tempInput.style.left = '-9999px';
-        tempInput.value = text;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        showCopyNotification(text);
+        navigator.clipboard.writeText(text).then(() => {
+            showCopyNotification(text);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
     }
 
     function showCopyNotification(text) {
