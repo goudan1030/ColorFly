@@ -90,7 +90,6 @@ h1 .material-icons-outlined {
 }
 
 .description {
-    width: 400px;
     font-size: 14px;
     font-weight: 400;
     color: #000;
@@ -114,7 +113,6 @@ h1 .material-icons-outlined {
 .color-input-wrapper {
     display: flex;
     align-items: center;
-    width: 600px;
     height: 52px;
     border: 1px solid #221a8f;
     border-radius: 4px;
@@ -224,6 +222,62 @@ h1 .material-icons-outlined {
     color: #fff;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
     border-radius: 3px;
+}
+
+.colors {
+    display: flex;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.color {
+    flex: 1;
+    height: 148px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.color span {
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.color::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.colors:hover .color {
+    flex-basis: 0;
+}
+
+.colors .color:hover {
+    flex-grow: 1.5;
+    flex-basis: 80px;  /* 增加的宽度 */
+}
+
+.color:hover::before {
+    opacity: 1;
+}
+
+.color:hover span {
+    transform: scale(1.1);
 }
 
 footer {
