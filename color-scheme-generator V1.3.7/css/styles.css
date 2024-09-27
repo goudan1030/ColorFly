@@ -77,6 +77,14 @@ h1 .material-icons-outlined {
     gap: 10px;
 }
 
+.icons > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
 .icons i {
     font-size: 16px;
     color: purple;
@@ -349,4 +357,40 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    padding: 8px;
+    transition: all 0.3s ease;
+    background-color: #fff; /* 添加这行作为测试 */
+    border-radius: 50%;
+}
+
+.material-icons-outlined.icon-small:hover {
+    background-color: #e2e1fc;
+    border-radius: 50%;
+}
+
+.material-icons-outlined.icon-small::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    background-color: #e2e1fc;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.material-icons-outlined.icon-small:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.material-icons-outlined.icon-small#bookmarkIcon {
+    transition: color 0.3s ease;
+}
+
+.material-icons-outlined.icon-small#bookmarkIcon:active {
+    color: #ff4500; /* 点击时改变颜色 */
 }

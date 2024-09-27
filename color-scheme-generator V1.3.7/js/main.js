@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseColorInput = document.getElementById('baseColor');
     const colorInput = document.getElementById('colorInput');
     const schemesContainer = document.getElementById('colorSchemes');
+    const bookmarkIcon = document.getElementById('bookmarkIcon');
 
     console.log('DOM content loaded');
 
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tints = [];
         const baseTint = tinycolor(baseColor);
         const hsl = baseTint.toHsl();
-        const lightnessStep = (1 - hsl.l) / 7;  // 将剩余亮度范围均分为7份
+        const lightnessStep = (1 - hsl.l) / 7;
 
         for (let i = 0; i < 7; i++) {
             const newLightness = hsl.l + lightnessStep * i;
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const shades = [];
         const baseShade = tinycolor(baseColor);
         const hsl = baseShade.toHsl();
-        const lightnessStep = hsl.l / 7;  // 将亮度范围均分为7份
+        const lightnessStep = hsl.l / 7;
 
         for (let i = 0; i < 7; i++) {
             const newLightness = hsl.l - lightnessStep * i;
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tones = [];
         const baseTone = tinycolor(baseColor);
         const hsl = baseTone.toHsl();
-        const saturationStep = hsl.s / 7;  // 将饱和度范围均分为7份
+        const saturationStep = hsl.s / 7;
 
         for (let i = 0; i < 7; i++) {
             const newSaturation = hsl.s - saturationStep * i;
@@ -71,9 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateUI(scheme) {
-        schemesContainer.innerHTML = ''; // 清空现有的颜色方案
-
-        // 添加 "Mixing colors" 标题
+        schemesContainer.innerHTML = '';
         const mixingColorsTitle = document.createElement('h2');
         mixingColorsTitle.className = 'mixing-colors-title';
         mixingColorsTitle.textContent = 'Mixing colors';
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'Contrast': 'The contrast color scheme pairs the base color with its complement (opposite on the color wheel). This creates a bold, dynamic look with maximum contrast, ideal for designs that need to "pop".'
         };
 
-        // 调换 Shades 和 Tones 的位置
         const orderedSchemes = ['Tints', 'Tones', 'Shades', 'Triadic', 'Contrast'];
 
         for (const schemeName of orderedSchemes) {
@@ -142,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateColorInfo(color) {
         const tc = tinycolor(color);
         
-        // 更新URL链接
         const url = `${window.location.origin}${window.location.pathname}?color=${tc.toHex()}`;
         window.history.replaceState(null, null, url);
 
@@ -151,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rgbValue').textContent = tc.toRgbString();
         document.getElementById('hslValue').textContent = tc.toHslString();
         
-        // Calculate HWB
         const rgb = tc.toRgb();
         const w = Math.min(rgb.r, rgb.g, rgb.b) / 255 * 100;
         const bl = 100 - Math.max(rgb.r, rgb.g, rgb.b) / 255 * 100;
@@ -160,31 +156,24 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.getElementById('hsvValue').textContent = tc.toHsvString();
         
-        // Calculate CMYK
         const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
         document.getElementById('cmykValue').textContent = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
         
-        // Calculate LAB
         const lab = rgbToLab(rgb.r, rgb.g, rgb.b);
         document.getElementById('labValue').textContent = `lab(${lab.l.toFixed(2)}, ${lab.a.toFixed(2)}, ${lab.b.toFixed(2)})`;
         
-        // Calculate LCH
         const lch = labToLch(lab.l, lab.a, lab.b);
         document.getElementById('lchValue').textContent = `lch(${lch.l.toFixed(2)}, ${lch.c.toFixed(2)}, ${lch.h.toFixed(2)})`;
         
-        // Calculate XYZ
         const xyz = rgbToXyz(rgb.r, rgb.g, rgb.b);
         document.getElementById('xyzValue').textContent = `xyz(${(xyz.x * 100).toFixed(2)}%, ${(xyz.y * 100).toFixed(2)}%, ${(xyz.z * 100).toFixed(2)}%)`;
         
-        // Pantone值需要特殊处理，这里只是占位
         document.getElementById('pantoneValue').textContent = 'Not available';
 
-        // Update color-values background and text color
         const colorValues = document.querySelector('.color-values');
         colorValues.style.backgroundColor = color;
         colorValues.style.color = tc.isLight() ? '#000' : '#fff';
 
-        // 生成新的颜色方案
         const scheme = generateColorScheme(color);
         updateUI(scheme);
         updateMetaTags(color);
@@ -205,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function rgbToLab(r, g, b) {
-        // Simplified conversion, not color-space accurate
         const l = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         const a = (r - g) * 0.5;
         const bValue = (b - g) * 0.5;
@@ -222,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function rgbToXyz(r, g, b) {
-        // Simplified conversion, not color-space accurate
         const x = 0.4124 * r + 0.3576 * g + 0.1805 * b;
         const y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         const z = 0.0193 * r + 0.1192 * g + 0.9505 * b;
@@ -247,14 +234,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // 初始化
     console.log('Initializing with color:', baseColorInput.value);
     const initialColor = baseColorInput.value;
     const initialScheme = generateColorScheme(initialColor);
     updateUI(initialScheme);
     updateMetaTags(initialColor);
     updateColorInfo(initialColor);
-    colorInput.value = initialColor; // 确保初始值同步
+    colorInput.value = initialColor;
 
     baseColorInput.addEventListener('input', (event) => {
         const color = event.target.value;
@@ -293,14 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 添加点击事件监听器到每个 .color-value p 标签
     document.querySelectorAll('.color-value p').forEach(p => {
         p.addEventListener('click', function() {
             copyToClipboard(this.textContent);
         });
     });
 
-    // 添加空格键生成随机颜色的功能
     document.addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
             event.preventDefault();
@@ -308,6 +292,19 @@ document.addEventListener('DOMContentLoaded', () => {
             baseColorInput.value = randomColor;
             colorInput.value = randomColor;
             updateColorInfo(randomColor);
+        }
+    });
+
+    // 新增的书签功能
+    bookmarkIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (window.sidebar && window.sidebar.addPanel) { // Firefox < 23
+            window.sidebar.addPanel(document.title, window.location.href, '');
+        } else if (window.external && ('AddFavorite' in window.external)) { // IE8
+            window.external.AddFavorite(window.location.href, document.title);
+        } else { // 其他浏览器
+            alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
         }
     });
 });
