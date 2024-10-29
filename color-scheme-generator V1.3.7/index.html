@@ -118,6 +118,22 @@
             display: flex;
             align-items: center;
             margin-left: 10px;
+            height: 40px;
+        }
+
+        #userImage {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        #googleSignInDiv {
+            margin-left: 10px;
+            display: inline-block !important;
+            min-width: 200px;
+            height: 40px;
+            border: 1px solid #ddd; /* 临时添加边框以便查看容器位置 */
         }
     </style>
 </head>
@@ -133,9 +149,9 @@
                     <span class="material-icons-outlined icon-small">quiz</span>
                     <span class="material-icons-outlined icon-small">share</span>
                     <span class="material-icons-outlined icon-small" id="bookmarkIcon">favorite</span>
-                    <div id="googleSignInDiv" style="margin-left: 10px;"></div>
+                    <div id="googleSignInDiv" style="margin-left: 10px; display: inline-block; min-width: 200px; height: 40px;"></div>
                     <div id="userProfile" style="display: none;">
-                        <img id="userImage" src="" alt="User Image" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <img id="userImage" src="" alt="User Image">
                         <button onclick="handleSignOut()" class="sign-out-btn">登出</button>
                     </div>
                 </div>
