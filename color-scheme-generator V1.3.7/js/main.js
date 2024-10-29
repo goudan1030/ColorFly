@@ -307,4 +307,89 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
         }
     });
+
+    // 声明全局变量
+    let google;
+    let client;
+
+    // 初始化 Google Sign-In
+    function initializeGoogleSignIn() {
+        client = google.accounts.oauth2.initTokenClient({
+            client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // 替换为你的客户端ID
+            scope: 'email profile',
+            callback: handleCredentialResponse
+        });
+
+        // 创建登录按钮
+        google.accounts.id.renderButton(
+            document.getElementById("googleSignInDiv"),
+            { 
+                theme: "outline", 
+                size: "large",
+                text: "signin_with",
+                shape: "rectangular",
+                locale: "zh_CN"
+            }
+        );
+    }
+
+    // 处理登录响应
+    function handleCredentialResponse(response) {
+        if (response.access_token) {
+            // 获取用户信息
+            fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: {
+                    'Authorization': `Bearer ${response.access_token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('googleSignInDiv').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'flex';
+                document.getElementById('userImage').src = data.picture;
+                
+                // 保存用户数据
+                localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userName', data.name);
+                localStorage.setItem('userPicture', data.picture);
+            });
+        }
+    }
+
+    // 处理登出
+    function handleSignOut() {
+        google.accounts.id.disableAutoSelect();
+        document.getElementById('googleSignInDiv').style.display = 'block';
+        document.getElementById('userProfile').style.display = 'none';
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPicture');
+    }
+
+    // 检查登录状态
+    function checkLoginStatus() {
+        const userEmail = localStorage.getItem('userEmail');
+        const userPicture = localStorage.getItem('userPicture');
+        
+        if (userEmail && userPicture) {
+            document.getElementById('googleSignInDiv').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('userImage').src = userPicture;
+        }
+    }
+
+    // 在页面加载完成后初始化
+    window.onload = function() {
+        // 加载 Google Identity Services
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gso/client.js';
+        script.onload = () => {
+            google = window.google;
+            initializeGoogleSignIn();
+            checkLoginStatus();
+        };
+        document.head.appendChild(script);
+        
+        // ... 其他现有的 onload 函数内容 ...
+    }
 });
