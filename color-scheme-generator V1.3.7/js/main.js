@@ -315,17 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化 Google Sign-In
     function initializeGoogleSignIn() {
         client = google.accounts.oauth2.initTokenClient({
-            client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com', // 替换为你的客户端ID
+            client_id: '157143550907-97rld0vu6tn7otrp54v5a6deoidkjn34.apps.googleusercontent.com',
             scope: 'email profile',
             callback: handleCredentialResponse
         });
 
-        // 创建登录按钮
         google.accounts.id.renderButton(
             document.getElementById("googleSignInDiv"),
             { 
                 theme: "outline", 
-                size: "large",
+                size: "medium",
                 text: "signin_with",
                 shape: "rectangular",
                 locale: "zh_CN"
