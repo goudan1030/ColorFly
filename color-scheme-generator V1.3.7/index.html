@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorFly - Create Beautiful Color Palettes</title>
+    <meta name="description" content="Generate beautiful color schemes for your design projects. Create harmonious color palettes with ColorFly's easy-to-use color scheme generator.">
+    <meta name="keywords" content="color scheme, color palette, color generator, design tools, ColorFly">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="canonical" href="https://colorfly.info">
+    <meta property="og:title" content="ColorFly - Color Scheme Generator">
+    <meta property="og:description" content="Create beautiful color palettes for your design projects with ColorFly's easy-to-use color scheme generator.">
+    <meta property="og:image" content="https://colorfly.info/images/colorfly-preview.jpg">
+    <meta property="og:url" content="https://colorfly.info">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BS4G39V8EB"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBFNVU9OfEV2vHZeHp7RmcD8Lfs3R_CwAc",
+      authDomain: "colorfly.info",
+      projectId: "colorfly-5f027",
+      storageBucket: "colorfly-5f027.appspot.com",
+      messagingSenderId: "796609628223",
+      appId: "1:796609628223:web:84c9555169b08d9706108a",
+      measurementId: "G-1KXDM6K2Z0"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // 将 auth 对象设为全局变量
+    window.auth = auth;
+    window.GoogleAuthProvider = GoogleAuthProvider;
+  </script>
+  
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BS4G39V8EB');
+    </script>
+    <style>
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .mixing-colors-title {
+            font-size: 24px;
+            margin: 20px 0 10px;
+        }
+        .color-scheme {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .colors {
+            display: flex;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .color {
+            flex: 1;
+            height: 148px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 1px 1px 0 #000;
+        }
+        .description-text {
+            font-size: 14px;
+            color: #52595f;
+            margin-bottom: 10px;
+        }
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            width: 340px;
+            display: flex;
+            align-items: center;
+            padding: 16px 10px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .copy-notification.show {
+            opacity: 1;
+        }
+        .copy-notification .icon {
+            color: green;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .copy-notification .text {
+            display: flex;
+            flex-direction: column;
+        }
+        .copy-notification .text .title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .copy-notification .text .value {
+            font-size: 14px;
+        }
+        .icons {
+            display: flex;
+            gap: 10px;
+        }
+        .icons .material-icons-outlined {
+            font-size: 20px;  /* 设置图标大小为 16px */
+            color: #ff0088;   /* 设置图标颜色为 #ff0088 */
+            cursor: pointer;
+        }
+        /* 登录相关样式 */
+        #authContainer {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid #ff0088;
+            border-radius: 4px;
+            background: none;
+            color: #ff0088;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: #ff0088;
+            color: white;
+        }
+
+        .google-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        #userInfo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #userAvatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #userName {
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <button id="login-btn">Login with Google</button>
+
+<script>
+  const auth = firebase.auth();
+
+  document.getElementById('login-btn').onclick = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+        console.log('User info:', user);
+        // 处理用户信息，例如显示用户名
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+      });
+  };
+</script>
+
+    <div class="container">
+        <header>
+            <div class="title-section">
+                <h1>
+                    <span class="material-icons-outlined">palette</span>
+                    <span class="colorfly">ColorFly</span> - Color Scheme Generator
+                </h1>
+                <div class="icons">
+                    <div class="icons">
+                        <span class="material-icons-outlined icon-small">quiz</span>
+                        <span class="material-icons-outlined icon-small">share</span>
+                        <span class="material-icons-outlined icon-small" id="bookmarkIcon">favorite</span>
+                    </div>
+                    <!-- 登录按钮和用户信息 -->
+                    <div id="authContainer">
+                        <button id="loginBtn" class="auth-btn">
+                            <img src="https://www.google.com/favicon.ico" alt="Google" class="google-icon">
+                            登录
+                        </button>
+                        <div id="userInfo" style="display: none;">
+                            <img id="userAvatar" src="" alt="User Avatar">
+                            <span id="userName"></span>
+                            <button id="logoutBtn" class="auth-btn">登出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="description">Generate a perfectly harmonized color scheme with our Color Scheme Generator. Generate fancy color shades, tints, triadic color palettes, and more color combinations.</p>
+        </header>
+        <main>
+            <div class="color-picker-section">
+                <label for="baseColor">Choose Base Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="baseColor" value="#466e46">
+                    <input type="text" id="colorInput" value="#466e46" placeholder="Enter color code">
+                </div>
+                <div class="color-info">
+                    <div class="color-values">
+                        <div class="color-value">
+                            <h4>Name</h4>
+                            <p id="colorName"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>HEX</h4>
+                            <p id="hexValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>RGB</h4>
+                            <p id="rgbValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>HSL</h4>
+                            <p id="hslValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>HWB</h4>
+                            <p id="hwbValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>HSV</h4>
+                            <p id="hsvValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>CMYK</h4>
+                            <p id="cmykValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>LAB</h4>
+                            <p id="labValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>LCH</h4>
+                            <p id="lchValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>XYZ</h4>
+                            <p id="xyzValue"></p>
+                        </div>
+                        <div class="color-value">
+                            <h4>Pantone</h4>
+                            <p id="pantoneValue"></p>
+                        </div>
+                    </div>
+                    <p class="tip">Tip: Press <span class="key">SPACE</span> to generate a random color</p>
+                </div>
+            </div>
+            <div id="colorSchemes">
+                <!-- Color schemes will be dynamically generated here -->
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 <span class="colorfly">ColorFly</span>. All rights reserved. | <a href="https://colorfly.info">colorfly.info</a></p>
+        </footer>
+    </div>
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check icon"></i>
+        <div class="text">
+            <div class="title">Copied</div>
+            <div class="value" id="copyValue"></div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js" type="module"></script>
+</body>
+</html>
