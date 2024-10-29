@@ -14,7 +14,7 @@
 
         // Firebase 配置
         const firebaseConfig = {
-            apiKey: "AIzaSyBFNVU9OfEV2vHZeHp7RmcD8Lfs3R_CwAc",
+            apiKey: "YOUR_API_KEY",
             authDomain: "colorfly.info",
             projectId: "colorfly-5f027",
             storageBucket: "colorfly-5f027.appspot.com",
@@ -54,7 +54,18 @@
             </div>
         </header>
         <main>
-            <!-- 主体内容 -->
+            <!-- 颜色选择输入 -->
+            <div class="color-picker-section">
+                <label for="baseColor">Choose Base Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="baseColor" value="#466e46">
+                    <input type="text" id="colorInput" value="#466e46" placeholder="Enter color code">
+                </div>
+            </div>
+            <!-- 色彩方案展示区 -->
+            <div id="colorSchemes">
+                <!-- 动态生成的颜色方案会显示在这里 -->
+            </div>
         </main>
     </div>
     <script src="js/main.js"></script>
