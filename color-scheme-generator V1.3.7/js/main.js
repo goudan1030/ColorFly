@@ -314,44 +314,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初始化 Google Sign-In
     function initializeGoogleSignIn() {
-        client = google.accounts.oauth2.initTokenClient({
-            client_id: '157143550907-97rld0vu6tn7otrp54v5a6deoidkjn34.apps.googleusercontent.com',
-            scope: 'email profile',
-            callback: handleCredentialResponse
-        });
+        try {
+            google.accounts.id.initialize({
+                client_id: '157143550907-97rld0vu6tn7otrp54v5a6deoidkjn34.apps.googleusercontent.com',
+                callback: handleCredentialResponse
+            });
 
-        google.accounts.id.renderButton(
-            document.getElementById("googleSignInDiv"),
-            { 
-                theme: "outline", 
-                size: "medium",
-                text: "signin_with",
-                shape: "rectangular",
-                locale: "zh_CN"
-            }
-        );
+            google.accounts.id.renderButton(
+                document.getElementById("googleSignInDiv"),
+                { 
+                    theme: "outline", 
+                    size: "medium",
+                    text: "signin_with",
+                    shape: "rectangular",
+                    locale: "zh_CN",
+                    width: 200 // 设置按钮宽度
+                }
+            );
+
+            // 自动提示一键登录
+            google.accounts.id.prompt();
+            
+            console.log('Google Sign-In initialized successfully');
+        } catch (error) {
+            console.error('Error initializing Google Sign-In:', error);
+        }
     }
 
     // 处理登录响应
     function handleCredentialResponse(response) {
-        if (response.access_token) {
-            // 获取用户信息
-            fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                headers: {
-                    'Authorization': `Bearer ${response.access_token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('googleSignInDiv').style.display = 'none';
-                document.getElementById('userProfile').style.display = 'flex';
-                document.getElementById('userImage').src = data.picture;
-                
-                // 保存用户数据
-                localStorage.setItem('userEmail', data.email);
-                localStorage.setItem('userName', data.name);
-                localStorage.setItem('userPicture', data.picture);
-            });
+        console.log('Received credential response:', response);
+        
+        if (response.credential) {
+            // 解码 JWT token
+            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            console.log('User info:', payload);
+            
+            document.getElementById('googleSignInDiv').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'flex';
+            document.getElementById('userImage').src = payload.picture;
+            
+            localStorage.setItem('userEmail', payload.email);
+            localStorage.setItem('userName', payload.name);
+            localStorage.setItem('userPicture', payload.picture);
         }
     }
 
@@ -379,16 +384,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 在页面加载完成后初始化
     window.onload = function() {
-        // 加载 Google Identity Services
-        const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gso/client.js';
-        script.onload = () => {
-            google = window.google;
+        console.log('DOM Content Loaded');
+        if (typeof google !== 'undefined') {
+            console.log('Google API loaded');
             initializeGoogleSignIn();
             checkLoginStatus();
-        };
-        document.head.appendChild(script);
-        
-        // ... 其他现有的 onload 函数内容 ...
-    }
+        } else {
+            console.error('Google API not loaded');
+        }
+    };
 });
