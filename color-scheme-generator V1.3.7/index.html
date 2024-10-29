@@ -27,6 +27,7 @@
       gtag('config', 'G-BS4G39V8EB');
     </script>
     <script src="https://accounts.google.com/gso/client.js"></script>
+    <meta name="google-signin-client_id" content="157143550907-97rld0vu6tn7otrp54v5a6deoidkjn34.apps.googleusercontent.com">
     <style>
         .container {
             max-width: 1300px;
@@ -129,12 +130,10 @@
                     <span class="colorfly">ColorFly</span> - Color Scheme Generator
                 </h1>
                 <div class="icons">
-                    <div class="icons">
-                        <span class="material-icons-outlined icon-small">quiz</span>
-                        <span class="material-icons-outlined icon-small">share</span>
-                        <span class="material-icons-outlined icon-small" id="bookmarkIcon">favorite</span>
-                    </div>
-                    <div id="googleSignInDiv"></div>
+                    <span class="material-icons-outlined icon-small">quiz</span>
+                    <span class="material-icons-outlined icon-small">share</span>
+                    <span class="material-icons-outlined icon-small" id="bookmarkIcon">favorite</span>
+                    <div id="googleSignInDiv" style="margin-left: 10px;"></div>
                     <div id="userProfile" style="display: none;">
                         <img id="userImage" src="" alt="User Image" style="width: 32px; height: 32px; border-radius: 50%;">
                         <button onclick="handleSignOut()" class="sign-out-btn">登出</button>
