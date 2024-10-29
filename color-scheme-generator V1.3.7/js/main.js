@@ -312,6 +312,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let google;
     let client;
 
+    // 添加在文件开头
+    function loadGoogleAPI() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://accounts.google.com/gso/client.js';
+            script.async = true;
+            script.defer = true;
+            script.onload = () => {
+                console.log('Google API script loaded');
+                resolve();
+            };
+            script.onerror = () => {
+                console.error('Failed to load Google API script');
+                reject();
+            };
+            document.head.appendChild(script);
+        });
+    }
+
     // 初始化 Google Sign-In
     function initializeGoogleSignIn() {
         try {
@@ -328,13 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     text: "signin_with",
                     shape: "rectangular",
                     locale: "zh_CN",
-                    width: 200 // 设置按钮宽度
+                    width: 200
                 }
             );
 
-            // 自动提示一键登录
-            google.accounts.id.prompt();
-            
             console.log('Google Sign-In initialized successfully');
         } catch (error) {
             console.error('Error initializing Google Sign-In:', error);
@@ -382,15 +398,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 在页面加载完成后初始化
-    window.onload = function() {
+    // 修改页面加载初始化
+    document.addEventListener('DOMContentLoaded', async function() {
         console.log('DOM Content Loaded');
-        if (typeof google !== 'undefined') {
-            console.log('Google API loaded');
-            initializeGoogleSignIn();
-            checkLoginStatus();
-        } else {
-            console.error('Google API not loaded');
+        try {
+            await loadGoogleAPI();
+            console.log('Waiting for Google API to initialize...');
+            // 等待一小段时间确保 API 完全初始化
+            setTimeout(() => {
+                if (typeof google !== 'undefined') {
+                    console.log('Google API loaded successfully');
+                    initializeGoogleSignIn();
+                    checkLoginStatus();
+                } else {
+                    console.error('Google API not available after loading');
+                }
+            }, 1000);
+        } catch (error) {
+            console.error('Failed to load Google API:', error);
         }
-    };
+    });
 });
