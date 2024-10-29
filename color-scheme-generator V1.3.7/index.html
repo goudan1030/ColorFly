@@ -26,6 +26,7 @@
 
       gtag('config', 'G-BS4G39V8EB');
     </script>
+    <script src="https://accounts.google.com/gso/client.js"></script>
     <style>
         .container {
             max-width: 1300px;
@@ -102,6 +103,21 @@
             color: #ff0088;   /* 设置图标颜色为 #ff0088 */
             cursor: pointer;
         }
+        .sign-out-btn {
+            background: none;
+            border: 1px solid #ff0088;
+            color: #ff0088;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        #userProfile {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +133,11 @@
                         <span class="material-icons-outlined icon-small">quiz</span>
                         <span class="material-icons-outlined icon-small">share</span>
                         <span class="material-icons-outlined icon-small" id="bookmarkIcon">favorite</span>
+                    </div>
+                    <div id="googleSignInDiv"></div>
+                    <div id="userProfile" style="display: none;">
+                        <img id="userImage" src="" alt="User Image" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <button onclick="handleSignOut()" class="sign-out-btn">登出</button>
                     </div>
                 </div>
             </div>
